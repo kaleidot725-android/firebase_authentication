@@ -13,8 +13,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val providers = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
-        val intent = AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers).build()
+        val providers = arrayListOf(
+            AuthUI.IdpConfig.EmailBuilder().build(),
+            AuthUI.IdpConfig.PhoneBuilder().build(),
+            AuthUI.IdpConfig.GoogleBuilder().build()
+        )
+        val intent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .setLogo(R.drawable.app_icon)
+            .setTheme(R.style.AppTheme)
+            .build()
         startActivityForResult(intent, RC_SIGN_IN)
     }
 
