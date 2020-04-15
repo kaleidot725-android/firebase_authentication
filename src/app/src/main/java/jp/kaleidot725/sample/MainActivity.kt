@@ -60,11 +60,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
-                task.getResult(ApiException::class.java)?.let { signInFirebaseAuth(it) }
+                val account = GoogleSignIn.getSignedInAccountFromIntent(data).getResult(ApiException::class.java)
+                if (account != null) {
+                    signInFirebaseAuth(account)
+                }
             } catch (e: ApiException) {
                 Log.e("MainActivity", "Sign In Google Error")
             }
@@ -74,9 +75,11 @@ class MainActivity : AppCompatActivity() {
     private fun updateUI() {
         val authorized = (firebaseAuth.currentUser != null)
         if (!authorized) {
+            // SignInGoogle ➔ SignInFirebaseAuth ➔ UpdateUI()
             sigh_in_button.text = "Sign In"
             sigh_in_button.setOnClickListener { signInGoogle() }
         } else {
+            // SignOutFirebaseAuth ➔ SignOutGoogle ➔ Update()
             sigh_in_button.text = "Sign Out"
             sigh_in_button.setOnClickListener {
                 signOutFirebaseAuth()
