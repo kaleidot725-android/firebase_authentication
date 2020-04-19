@@ -10,6 +10,7 @@ class MainViewModel : ViewModel() {
 
     private val _userToken: MutableLiveData<String> = MutableLiveData(UNKNOWN_USER)
     val userToken: LiveData<String> = _userToken.map { it ?: UNKNOWN_USER }
+
     var authorized : Boolean = false
     val actionName : LiveData<String> = _userToken.map { if (it != UNKNOWN_USER) "Sign Out" else "Sign In" }
 

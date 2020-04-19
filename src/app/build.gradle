@@ -48,12 +48,18 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
-    implementation 'com.google.firebase:firebase-auth:19.3.0'
+    // Firebase Authentication
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.1' // 追加
+    implementation 'com.google.firebase:firebase-auth:19.3.0' // 追加
 
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha01'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha01'
-    implementation "com.github.hadilq.liveevent:liveevent:1.0.1"
+    // Kotlin Coroutine
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5' // 必要に応じて追加
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.5' // 必要に応じて追加
+
+    // KTX
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha01' // 必要に応じて追加
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha01' // 必要に応じて追加
+
+    // LiveEvent
+    implementation "com.github.hadilq.liveevent:liveevent:1.0.1" // 必要に応じて追加
 }
