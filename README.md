@@ -1,8 +1,8 @@
-# 2020/04/18 ［Android］Google アカウントを利用して Firebase にログインする
+# 2020/04/18 ［Android］Google アカウントを利用して Firebase にサインインする
 
 # はじめに
 
-Firebase には FireabaseUI Auth という予め用意された UI を使ってログインする方法と Fireabase SDK を利用してログインする 2 つの方法があります。今回は Fireabase SDK を利用して Firebase にログインする方法を試してみます。また Firebase には Mail・Google・Twitter・Facebook などでログインする方法があるのですが、色々試すのは大変なので Google を使ったログインするようにしてみます。
+Firebase には FireabaseUI Auth という予め用意された UI を使ってサインインする方法と Fireabase SDK を利用してサインインする 2 つの方法があります。今回は Fireabase SDK を利用して Firebase にサインインする方法を試してみます。また Firebase には Mail・Google・Twitter・Facebook などでサインインする方法があるのですが、色々試すのは大変なので Google を使ったサインインするようにしてみます。
 
 # 準備
 
@@ -12,25 +12,24 @@ Firebase を利用するには Firebase プロジェクト、 Android プロジ�
 
 次の手順で Firebase のプロジェクトを作成していきます。
 
-1. [Firebase] にログインし、「プロジェクト」の作成を選択する。
-  (FirebaseはGoogleのアカウントでログインできます。)
+1. [Firebase] にサインインし、「プロジェクト」の作成を選択する。
 2. 「プロジェクト名」に任意の名称を入力して、「続行」を選択する。
-3. 「Googleアナリティクス」を有効・無効どちらか選択し、「続行」を選択する
+3. 「Googleアナリティクス」を選択し、「続行」を選択する
 4. 「Googleアナリティクスアカウント」を選択し、「続行」を選択する
-   (特に何もなければ、Default Account for Firebase でよいはず)
 5. [Firebase のコンソール](https://console.firebase.google.com)に移動し、作成した Firebase プロジェクトを選択する。
 
 
 作成したプロジェクトに次の設定を行い、 Android アプリから Firebase を利用できるようにします。
 
 1. [Firebase のコンソール](https://console.firebase.google.com)で　Firebase プロジェクトを選択する。
-2. **アプリを追加** を選択し、**プラットフォーム** で Android を選択する。
-3. **Androidパッケージ名**の入力が求められるので、Android プロジェクトのパッケージ名を入力する。
+2. アプリを追加 を選択し、プラットフォーム で Android を選択する。
+3. Androidパッケージ名の入力が求められるので、Android プロジェクトのパッケージ名を入力する。
 4. デバッグ用の署名証明書を入力し、アプリを登録を選択する。(署名証明書の作成は[こちら](https://developers.google.com/android/guides/client-auth))
-5. **設定ファイルのダウンロード** や **Firebase SDK の追加** や **アプリを実行してインストールを確認**は後で確認するので、次へを選択する。
+5. 設定ファイルのダウンロード や Firebase SDK の追加 や   
+   アプリを実行してインストールを確認 は後で確認するので、次へを選択する。
 6.  [Firebase のコンソール](https://console.firebase.google.com)に戻り、Authentication -> Sign-in methodを選択する
-7.  Sign-in method では認証に利用するプロバイダの有効・無効を切り替えられる、今回は Google を利用するので Google を有効にする。
-8.  最後に プロジェクトの概要 -> 作成したアプリ名称の⚙ -> google-service.json でファイルをダウンロードする。
+7.  Sign-in method で Google を有効にする。
+8.  最後に プロジェクトの概要 -> 作成したアプリ名称 設定アイコン -> google-service.json でファイルをダウンロードする。
 
 ## Android プロジェクトを作成する
 
@@ -100,7 +99,7 @@ dependencies {
 
 **初期化する**
 
-次のコードで GoogleSignInClient と FirebaseAuth クラスのオブジェクトの初期化をします。GoogleSignInClient は Google アカウントへのログインを制御するクラス、 FirebaseAuth は Firebase へのログインを制御するクラスになります。これらの 2つのオブジェクトを利用して Google アカウントを利用した Firebase へのログインを実装していきます。
+次のコードで GoogleSignInClient と FirebaseAuth クラスのオブジェクトの初期化をします。GoogleSignInClient は Google アカウントへのサインインを制御するクラス、 FirebaseAuth は Firebase へのサインインを制御するクラスになります。これらの 2つのオブジェクトを利用して Google アカウントを利用した Firebase へのサインインを実装していきます。
 
 ```kotlin
 class GoogleAuthController(private val activity: AppCompatActivity) {
@@ -126,7 +125,7 @@ class GoogleAuthController(private val activity: AppCompatActivity) {
 
 **サインインする**
 
-まずはFirebaseへのログインに利用する Google アカウントを選択する必要があります。アカウントの選択は GoogleSignInClient の signInIntent 経由で選択できるようになっているので signInIntent を取得して startActivityForResult にセットして Intent を起動してやります。
+まずはFirebaseへのサインインに利用する Google アカウントを選択する必要があります。アカウントの選択は GoogleSignInClient の signInIntent 経由で選択できるようになっているので signInIntent を取得して startActivityForResult にセットして Intent を起動してやります。
 
 
 ```kotlin
@@ -142,11 +141,11 @@ class GoogleAuthController(private val activity: AppCompatActivity) {
 }
 ```
 
-startActivityForResult で signInIntent を起動してやると次のような画面が出てくるので、表示された Google アカウントを選択して Firebase にログインに利用するアカウントを決めてやります。
+startActivityForResult で signInIntent を起動してやると次のような画面が出てくるので、表示された Google アカウントを選択して Firebase にサインインに利用するアカウントを決めてやります。
 
 [![Image from Gyazo](https://i.gyazo.com/73282dbe5b43b50c252dbf46149a401c.png)](https://gyazo.com/73282dbe5b43b50c252dbf46149a401c)
 
-アカウントの選択が完了したら、onActivityResult で選択した Google のアカウント情報(GoogleSignInAccount) を 引数の data(Intent) から取得してやります。あとは取得した アカウント情報(GoogleSignInAccount) から credential を生成し、FirebathAuth.signInWithCredential に credential を渡して実行すればサインインできます。あとログイン完了の通知を受け取りたいこともあると思います、その場合は firebaseAuth.signInWithCredential の戻り値の Task の addOnCompleteListener でリスナーを追加してやります。今回はログイン完了の処理はあとからカスタマイズできるようにログイン開始時に引数で関数を渡し、完了時に呼び出す形にしています。
+アカウントの選択が完了したら、onActivityResult で選択した Google のアカウント情報(GoogleSignInAccount) を 引数の data(Intent) から取得してやります。あとは取得した アカウント情報(GoogleSignInAccount) から credential を生成し、FirebathAuth.signInWithCredential に credential を渡して実行すればサインインできます。あとサインイン完了の通知を受け取りたいこともあると思います、その場合は firebaseAuth.signInWithCredential の戻り値の Task の addOnCompleteListener でリスナーを追加してやります。今回はサインイン完了の処理はあとからカスタマイズできるようにサインイン開始時に引数で関数を渡し、完了時に呼び出す形にしています。
 
 ```kotlin
 class GoogleAuthController(private val activity: AppCompatActivity) {
@@ -262,7 +261,7 @@ class GoogleAuthController(private val activity: AppCompatActivity) {
 
 # 動作確認
 
-あと動作を確認するための UI を作ってやります。Button を押すとサインイン・サインアウト、サインインできたらユーザートークンを表示するシンプルなUIです。
+あと動作を確認するための UI を作ってやります。Button を押すとサインイン・サインアウト、サインインできたらユーザートークンを取得し更新するシンプルなUIです。
 
 [![Image from Gyazo](https://i.gyazo.com/759d2fe0ab330f37c7d42ef28ca63548.png)](https://gyazo.com/759d2fe0ab330f37c7d42ef28ca63548)
 
@@ -365,8 +364,10 @@ class MainActivity : AppCompatActivity() {
 
 # まとめ
 
-Google アカウントを利用した Firebase へのログインは Google アカウント情報を取得するために Intent の起動、 Intent の結果取得を自身で制御するので少しややこしいです。あと Google アカウントを利用したログインは公式ドキュメントもあまり充実していないような気がするので、自分で少しずつ試していくしかなさそうです。
+Google アカウントを利用した Firebase へのサインインは Google アカウント情報を取得するために Intent の起動、 Intent の結果取得を自身で制御するので少しややこしいです。あと Google アカウントを利用したサインインは公式ドキュメントもあまり充実していないような気がするので、自分で少しずつ試していくしかなさそうです。
 
 <a href="https://github.com/kaleidot725-android/firebase_authentication"><img src="https://github-link-card.s3.ap-northeast-1.amazonaws.com/kaleidot725-android/firebase_authentication.png" width="460px"></a>
 
+# 参考文献
 
+- [Authenticate Using Google Sign-In on Android](https://firebase.google.com/docs/auth/android/google-signin)
